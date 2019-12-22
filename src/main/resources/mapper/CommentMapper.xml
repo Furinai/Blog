@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.citru.blog.mapper.CommentMapper">
+<mapper namespace="cn.linter.blog.mapper.CommentMapper">
     <resultMap id="CommentResultMap" type="Comment">
         <id property="id" column="id"/>
         <result property="content" column="content"/>
@@ -8,19 +8,20 @@
         <result property="articleId" column="article_id"/>
         <association property="user" javaType="User">
             <id property="id" column="user_id"/>
-            <result property="avatar" column="avatar"/>
             <result property="username" column="username"/>
         </association>
     </resultMap>
 
     <insert id="insertComment">
         insert into comment(content, user_id, article_id, create_time)
-        values (#{content}, #{user.id}, #{articleId}, #{createTime})
+        values (#{content}, #{user.id}, #{articleId}, #{createTime});
+        update article set comment_count = comment_count + 1
+        where article.id = #{articleId};
     </insert>
 
     <select id="selectComments" resultMap="CommentResultMap">
         select comment.id, comment.content, comment.create_time, comment.article_id,
-               user.id as user_id, user.avatar, user.username
+               user.id as user_id, user.username
         from comment, user
         where comment.user_id = user.id
           and comment.article_id = #{articleId}
