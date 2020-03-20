@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/admin/api")
 public class UploadController {
     @PostMapping("/image")
     public Map<String, String> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
