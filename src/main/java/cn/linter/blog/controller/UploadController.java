@@ -18,11 +18,17 @@ import java.util.Map;
 public class UploadController {
     @PostMapping("/image")
     public Map<String, String> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
+        String rootPath;
+        String os = System.getProperty("os.name");
+        if (os.toLowerCase().startsWith("win")) {
+            rootPath = new ApplicationHome(getClass()).getSource().getPath();
+        } else {
+            rootPath = new ApplicationHome(getClass()).getSource().getParent();
+        }
         Map<String, String> map = new HashMap<>();
         String fileName = file.getOriginalFilename();
-        String filePath = new ApplicationHome(getClass()).getSource().getParent();
-        String path = filePath + "/static/image/" + fileName;
-        Files.write(Paths.get(path), file.getBytes());
+        String filePath = rootPath + "/static/file/" + fileName;
+        Files.write(Paths.get(filePath), file.getBytes());
         map.put("location", "/image/" + fileName);
         return map;
     }
