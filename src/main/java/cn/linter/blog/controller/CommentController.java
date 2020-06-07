@@ -23,7 +23,9 @@ public class CommentController {
     @PostMapping("/comment")
     public Response addComment(@RequestBody Comment comment, @AuthenticationPrincipal User user) {
         int result = commentService.addComment(comment, user);
-        if (result == 0) return new Response("error", "评论失败！");
+        if (result == 0) {
+            return new Response("error", "评论失败！");
+        }
         return new Response("success", "评论成功！");
     }
 

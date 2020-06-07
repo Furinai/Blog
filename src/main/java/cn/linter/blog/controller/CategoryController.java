@@ -24,7 +24,9 @@ public class CategoryController {
     @GetMapping("/categories")
     public Response getCategories() {
         List<Category> categories = categoryService.getCategories();
-        if (categories == null) return new Response("error", "暂无分类！");
+        if (categories == null) {
+            return new Response("error", "暂无分类！");
+        }
         return new Response("success", categories);
     }
 

@@ -40,18 +40,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int register(User user) {
-        if (userMapper.selectUserByEmail(user.getEmail()) != null) return -1;
-        if (userMapper.selectUserByUsername(user.getUsername()) != null) return -2;
+        if (userMapper.selectUserByEmail(user.getEmail()) != null) {
+            return -1;
+        }
+        if (userMapper.selectUserByUsername(user.getUsername()) != null) {
+            return -2;
+        }
         user.setPassword(encoder.encode(user.getPassword()));
         int result = userMapper.insertUser(user);
-        if (result > 0) rolesMapper.insertRoleToUser(user.getId(), 2);
+        if (result > 0) {
+            rolesMapper.insertRoleToUser(user.getId(), 2);
+        }
         return result;
     }
 
     @Override
     public User getUserById(int id) {
         User user = userMapper.selectUserById(id);
-        if (user == null) return new User();
+        if (user == null) {
+            return new User();
+        }
         user.setPassword(null);
         return user;
     }

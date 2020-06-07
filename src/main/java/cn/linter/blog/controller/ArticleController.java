@@ -21,7 +21,9 @@ public class ArticleController {
     @PostMapping("/article")
     public Response addArticle(@RequestBody Article article) {
         int result = articleService.addArticle(article);
-        if (result == 0) return new Response("error", "发表失败！");
+        if (result == 0) {
+            return new Response("error", "发表失败！");
+        }
         return new Response("success", "发表成功！");
     }
 
@@ -36,7 +38,9 @@ public class ArticleController {
     @GetMapping("/article/{id}")
     public Response getArticleById(@PathVariable("id") int ArticleId) {
         Article article = articleService.getArticleById(ArticleId);
-        if (article == null) return new Response("error", "此文章不存在!");
+        if (article == null) {
+            return new Response("error", "此文章不存在!");
+        }
         return new Response("success", article);
     }
 }
