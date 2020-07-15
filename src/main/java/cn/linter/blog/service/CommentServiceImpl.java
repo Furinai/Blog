@@ -7,7 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,8 +22,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public int addComment(Comment comment, User user) {
         comment.setUser(user);
-        long time = System.currentTimeMillis();
-        comment.setCreateTime(new Timestamp(time));
+        LocalDateTime localDateTime = LocalDateTime.now();
+        comment.setCreateTime(localDateTime);
         return commentMapper.insertComment(comment);
     }
 

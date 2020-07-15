@@ -6,7 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -19,8 +19,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public int addArticle(Article article) {
-        long time = System.currentTimeMillis();
-        article.setCreateTime(new Timestamp(time));
+        LocalDateTime localDateTime = LocalDateTime.now();
+        article.setCreateTime(localDateTime);
         return articleMapper.insertArticle(article);
     }
 

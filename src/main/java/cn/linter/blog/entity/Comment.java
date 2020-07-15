@@ -2,7 +2,7 @@ package cn.linter.blog.entity;
 
 import org.apache.ibatis.type.Alias;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Alias("Comment")
 public class Comment {
@@ -10,7 +10,7 @@ public class Comment {
     private User user;
     private String content;
     private int articleId;
-    private Timestamp createTime;
+    private LocalDateTime createTime;
 
     public int getId() {
         return id;
@@ -44,11 +44,11 @@ public class Comment {
         this.articleId = articleId;
     }
 
-    public Timestamp getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 }
