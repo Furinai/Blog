@@ -7,21 +7,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 import java.io.PrintWriter;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final TokenRepository tokenRepository;
-
     private final UserService userService;
 
     @Autowired
-    public WebSecurityConfig(UserService userService, DataSource dataSource) {
-        TokenRepository tokenRepository = new TokenRepository();
-        tokenRepository.setDataSource(dataSource);
-        this.tokenRepository = tokenRepository;
+    public WebSecurityConfig(UserService userService) {
         this.userService = userService;
     }
 
@@ -76,7 +70,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .and().rememberMe()
                 .rememberMeParameter("remember")
-                .tokenRepository(tokenRepository)
                 .userDetailsService(userService)
                 .and().csrf()
                 .disable();
