@@ -22,12 +22,12 @@ public class CategoryController {
     }
 
     @GetMapping("/categories")
-    public Response getCategories() {
-        List<Category> categories = categoryService.getCategories();
+    public Response<?> getCategories() {
+        List<Category> categories = categoryService.listCategories();
         if (categories == null) {
-            return new Response("error", "暂无分类！");
+            return Response.error("暂无文章分类！");
         }
-        return new Response("success", categories);
+        return Response.success("文章分类列表获取成功！", categories);
     }
 
 }

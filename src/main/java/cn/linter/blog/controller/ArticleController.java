@@ -19,28 +19,31 @@ public class ArticleController {
     }
 
     @PostMapping("/article")
-    public Response addArticle(@RequestBody Article article) {
+    public Response<?> addArticle(@RequestBody Article article) {
         int result = articleService.addArticle(article);
-        if (result == 0) {
-            return new Response("error", "发表失败！");
+        if (result == 1) {
+            return Response.success("发表成功！");
         }
-        return new Response("success", "发表成功！");
+        return Response.error("发表失败！");
     }
 
     @GetMapping("/articles")
-    public Response getArticles(@RequestParam(value = "categoryId", defaultValue = "0") int categoryId,
-                                @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
-                                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        PageInfo<?> pageInfo = articleService.getArticles(categoryId, pageNumber, pageSize);
-        return new Response("success", pageInfo.getTotal(), pageInfo.getList());
+    public Response<?> listArticles(@RequestParam(value = "categoryId", defaultValue = "0") int categoryId,
+                                    @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
+                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        PageInfo<?> pageInfo = articleService.listArticles(categoryId, pageNumber, pageSize);
+        if (pageInfo.getList() == null) {
+            return Response.error("目标分类下暂无文章！");
+        }
+        return Response.success("文章列表获取成功！", pageInfo.getTotal(), pageInfo.getList());
     }
 
     @GetMapping("/article/{id}")
-    public Response getArticleById(@PathVariable("id") int ArticleId) {
-        Article article = articleService.getArticleById(ArticleId);
+    public Response<?> getArticleById(@PathVariable("id") int articleId) {
+        Article article = articleService.getArticleById(articleId);
         if (article == null) {
-            return new Response("error", "此文章不存在!");
+            return Response.error("目标文章不存在!");
         }
-        return new Response("success", article);
+        return Response.success("文章获取成功！", article);
     }
 }

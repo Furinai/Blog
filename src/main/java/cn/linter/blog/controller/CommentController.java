@@ -21,19 +21,22 @@ public class CommentController {
     }
 
     @PostMapping("/comment")
-    public Response addComment(@RequestBody Comment comment, @AuthenticationPrincipal User user) {
+    public Response<?> addComment(@RequestBody Comment comment, @AuthenticationPrincipal User user) {
         int result = commentService.addComment(comment, user);
-        if (result == 0) {
-            return new Response("error", "评论失败！");
+        if (result == 1) {
+            return Response.success("评论成功！");
         }
-        return new Response("success", "评论成功！");
+        return Response.error("评论失败！");
     }
 
     @GetMapping("/comments")
-    public Response getComments(@RequestParam(value = "articleId", defaultValue = "0") int articleId,
-                                @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
-                                @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
-        PageInfo<?> pageInfo = commentService.getComments(articleId, pageNumber, pageSize);
-        return new Response("success", pageInfo.getTotal(), pageInfo.getList());
+    public Response<?> getComments(@RequestParam(value = "articleId", defaultValue = "0") int articleId,
+                                   @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
+                                   @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
+        PageInfo<?> pageInfo = commentService.listComments(articleId, pageNumber, pageSize);
+        if (pageInfo.getList() == null) {
+            return Response.error("评论列表获取失败！");
+        }
+        return Response.success("评论列表获取成功！", pageInfo.getTotal(), pageInfo.getList());
     }
 }

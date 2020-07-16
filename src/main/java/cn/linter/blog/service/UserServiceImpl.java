@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(encoder.encode(user.getPassword()));
         int result = userMapper.insertUser(user);
-        if (result > 0) {
+        if (result == 1) {
             rolesMapper.insertRoleToUser(user.getId(), 2);
         }
         return result;
@@ -56,11 +56,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(int id) {
-        User user = userMapper.selectUserById(id);
-        if (user == null) {
-            return new User();
-        }
-        user.setPassword(null);
-        return user;
+        return userMapper.selectUserById(id);
     }
 }

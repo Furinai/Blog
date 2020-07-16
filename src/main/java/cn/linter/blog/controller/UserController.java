@@ -23,33 +23,34 @@ public class UserController {
     }
 
     @GetMapping("/auth")
-    public Response getAuthentication(@AuthenticationPrincipal User user) {
+    public Response<?> getAuthentication(@AuthenticationPrincipal User user) {
         user.setPassword(null);
-        return new Response("success", user);
+        return Response.success("用户信息获取成功！", user);
     }
 
     @PostMapping("/register")
-    public Response Register(@RequestBody User user) {
+    public Response<?> register(@RequestBody User user) {
         if (!enableRegister) {
-            return new Response("error", "暂不开放注册！");
+            return Response.error("暂不开放注册！");
         }
         int result = userService.register(user);
         switch (result) {
             case -1:
-                return new Response("error", "邮箱已被注册！");
+                return Response.error("邮箱已被注册！");
             case -2:
-                return new Response("error", "用户名已存在！");
+                return Response.error("用户名已存在！");
             default:
-                return new Response("success", "注册成功！");
+                return Response.success("注册成功！");
         }
     }
 
     @GetMapping("/user/{id}")
-    public Response getUser(@PathVariable("id") int id) {
+    public Response<?> getUser(@PathVariable("id") int id) {
         User user = userService.getUserById(id);
-        if (user.getId() == 0) {
-            return new Response("error", "此用户不存在！");
+        if (user == null) {
+            return Response.error("此用户不存在！");
         }
-        return new Response("success", user);
+        user.setPassword(null);
+        return Response.success("用户信息获取成功！", user);
     }
 }
