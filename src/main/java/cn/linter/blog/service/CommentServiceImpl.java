@@ -23,7 +23,7 @@ public class CommentServiceImpl implements CommentService {
     public int addComment(Comment comment, User user) {
         comment.setUser(user);
         LocalDateTime localDateTime = LocalDateTime.now();
-        comment.setCreateTime(localDateTime);
+        comment.setCreatedTime(localDateTime);
         return commentMapper.insertComment(comment);
     }
 

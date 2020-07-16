@@ -13,6 +13,6 @@ public class Comment implements Serializable {
     private User user;
     private String content;
     private int articleId;
-    private LocalDateTime createTime;
+    private LocalDateTime createdTime;
     private static final long serialVersionUID = 1L;
 }

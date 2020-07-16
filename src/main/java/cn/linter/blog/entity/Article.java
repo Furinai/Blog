@@ -16,6 +16,6 @@ public class Article implements Serializable {
     private int viewCount;
     private int commentCount;
     private Category category;
-    private LocalDateTime createTime;
+    private LocalDateTime createdTime;
     private static final long serialVersionUID = 1L;
 }

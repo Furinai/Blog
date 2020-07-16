@@ -20,7 +20,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public int addArticle(Article article) {
         LocalDateTime localDateTime = LocalDateTime.now();
-        article.setCreateTime(localDateTime);
+        article.setCreatedTime(localDateTime);
         return articleMapper.insertArticle(article);
     }
 

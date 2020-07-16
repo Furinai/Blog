@@ -4,7 +4,7 @@
     <resultMap id="CommentResultMap" type="Comment">
         <id property="id" column="id"/>
         <result property="content" column="content"/>
-        <result property="createTime" column="create_time"/>
+        <result property="createdTime" column="created_time"/>
         <result property="articleId" column="article_id"/>
         <association property="user" javaType="User">
             <id property="id" column="user_id"/>
@@ -13,18 +13,18 @@
     </resultMap>
 
     <insert id="insertComment">
-        insert into comment(content, user_id, article_id, create_time)
-        values (#{content}, #{user.id}, #{articleId}, #{createTime});
+        insert into comment(content, user_id, article_id, created_time)
+        values (#{content}, #{user.id}, #{articleId}, #{createdTime});
         update article set comment_count = comment_count + 1
         where article.id = #{articleId};
     </insert>
 
     <select id="selectComments" resultMap="CommentResultMap">
-        select comment.id, comment.content, comment.create_time, comment.article_id,
+        select comment.id, comment.content, comment.created_time, comment.article_id,
                user.id as user_id, user.username
         from comment, user
         where comment.user_id = user.id
           and comment.article_id = #{articleId}
-        order by comment.create_time desc
+        order by comment.created_time desc
     </select>
 </mapper>
