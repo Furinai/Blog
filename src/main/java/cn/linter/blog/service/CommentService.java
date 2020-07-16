@@ -7,5 +7,5 @@ import com.github.pagehelper.PageInfo;
 public interface CommentService {
     int addComment(Comment comment, User user);
 
-    PageInfo<?> getComments(int articleId, int pageNumber, int pageSize);
+    PageInfo<?> listComments(int articleId, int pageNumber, int pageSize);
 }

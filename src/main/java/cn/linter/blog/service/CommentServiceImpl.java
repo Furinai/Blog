@@ -28,7 +28,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public PageInfo<?> getComments(int articleId, int pageNumber, int pageSize) {
+    public PageInfo<?> listComments(int articleId, int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber, pageSize);
         List<Comment> comments = commentMapper.selectComments(articleId);
         return new PageInfo<>(comments);
