@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface ArticleMapper {
-    int insertArticle(@Param("article") Article article);
+    int insertArticle(Article article);
 
     Article selectArticleById(@Param("articleId") int articleId);
 

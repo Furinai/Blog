@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface CommentMapper {
-    int insertComment(@Param("comment") Comment comment);
+    int insertComment(Comment comment);
 
     List<Comment> selectComments(@Param("articleId") int articleId);
 }
