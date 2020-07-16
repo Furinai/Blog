@@ -1,5 +1,8 @@
 package cn.linter.blog.entity;
 
+import lombok.Data;
+
+@Data
 public class Response {
     private String status;
     private String message;
@@ -35,38 +38,6 @@ public class Response {
         this.status = status;
         this.message = message;
         this.total = total;
-        this.object = object;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Long getTotal() {
-        return total;
-    }
-
-    public void setTotal(Long total) {
-        this.total = total;
-    }
-
-    public Object getObject() {
-        return object;
-    }
-
-    public void setObject(Object object) {
         this.object = object;
     }
 }
