@@ -1,6 +1,8 @@
 package cn.linter.blog.config;
 
+import cn.linter.blog.entity.Response;
 import cn.linter.blog.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,10 +15,12 @@ import java.io.PrintWriter;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public WebSecurityConfig(UserService userService) {
+    public WebSecurityConfig(UserService userService, ObjectMapper objectMapper) {
         this.userService = userService;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -31,14 +35,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler((request, response, authentication) -> {
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
-                    out.write("{\"status\":\"success\",\"message\":\"登录成功!\"}");
+                    Response responseBody = new Response("success", "登录成功！");
+                    out.write(objectMapper.writeValueAsString(responseBody));
                     out.flush();
                     out.close();
                 })
                 .failureHandler((request, response, exception) -> {
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
-                    out.write("{\"status\":\"error\",\"message\":\"账号或密码错误!\"}");
+                    Response responseBody = new Response("error", "账号或密码错误！");
+                    out.write(objectMapper.writeValueAsString(responseBody));
                     out.flush();
                     out.close();
                 })
@@ -47,7 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     response.setContentType("application/json;charset=utf-8");
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     PrintWriter out = response.getWriter();
-                    out.write("{\"status\":\"error\",\"message\":\"授权已过期，请重新登录。\"}");
+                    Response responseBody = new Response("error", "授权已过期，请重新登录！");
+                    out.write(objectMapper.writeValueAsString(responseBody));
                     out.flush();
                     out.close();
                 })
@@ -55,7 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     response.setContentType("application/json;charset=utf-8");
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     PrintWriter out = response.getWriter();
-                    out.write("{\"status\":\"error\",\"message\":\"您没有权限进行此操作!\"}");
+                    Response responseBody = new Response("error", "您没有权限进行此操作！");
+                    out.write(objectMapper.writeValueAsString(responseBody));
                     out.flush();
                     out.close();
                 })
@@ -64,7 +72,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler((request, response, authentication) -> {
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
-                    out.write("{\"status\":\"success\",\"message\":\"注销成功!\"}");
+                    Response responseBody = new Response("success", "注销成功！");
+                    out.write(objectMapper.writeValueAsString(responseBody));
                     out.flush();
                     out.close();
                 })
