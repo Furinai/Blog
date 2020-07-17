@@ -8,7 +8,6 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -30,7 +29,6 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public PageInfo<?> listComments(int articleId, int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber, pageSize);
-        List<Comment> comments = commentMapper.selectComments(articleId);
-        return new PageInfo<>(comments);
+        return new PageInfo<>(commentMapper.selectComments(articleId), 5);
     }
 }

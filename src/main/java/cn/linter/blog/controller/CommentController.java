@@ -37,6 +37,6 @@ public class CommentController {
         if (pageInfo.getList() == null) {
             return Response.error("评论列表获取失败！");
         }
-        return Response.success("评论列表获取成功！", pageInfo.getTotal(), pageInfo.getList());
+        return Response.success("评论列表获取成功！", pageInfo);
     }
 }

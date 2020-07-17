@@ -35,7 +35,7 @@ public class ArticleController {
         if (pageInfo.getList() == null) {
             return Response.error("目标分类下暂无文章！");
         }
-        return Response.success("文章列表获取成功！", pageInfo.getTotal(), pageInfo.getList());
+        return Response.success("文章列表获取成功！", pageInfo);
     }
 
     @GetMapping("/article/{id}")
