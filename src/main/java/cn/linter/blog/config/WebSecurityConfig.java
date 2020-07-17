@@ -4,18 +4,12 @@ import cn.linter.blog.entity.Response;
 import cn.linter.blog.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -41,16 +35,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler((request, response, authentication) -> {
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
-                    Response responseBody = new Response("success", "登录成功！");
-                    out.write(objectMapper.writeValueAsString(responseBody));
+                    out.write(objectMapper.writeValueAsString(Response.error("登录成功！")));
                     out.flush();
                     out.close();
                 })
                 .failureHandler((request, response, exception) -> {
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
-                    Response responseBody = new Response("error", "账号或密码错误！");
-                    out.write(objectMapper.writeValueAsString(responseBody));
+                    out.write(objectMapper.writeValueAsString(Response.error("账号或密码错误！")));
                     out.flush();
                     out.close();
                 })
@@ -59,8 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     response.setContentType("application/json;charset=utf-8");
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     PrintWriter out = response.getWriter();
-                    Response responseBody = new Response("error", "授权已过期，请重新登录！");
-                    out.write(objectMapper.writeValueAsString(responseBody));
+                    out.write(objectMapper.writeValueAsString(Response.error("授权已过期，请重新登录！")));
                     out.flush();
                     out.close();
                 })
@@ -68,8 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     response.setContentType("application/json;charset=utf-8");
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     PrintWriter out = response.getWriter();
-                    Response responseBody = new Response("error", "您没有权限进行此操作！");
-                    out.write(objectMapper.writeValueAsString(responseBody));
+                    out.write(objectMapper.writeValueAsString(Response.error("您没有权限进行此操作！")));
                     out.flush();
                     out.close();
                 })
@@ -78,28 +68,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler((request, response, authentication) -> {
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
-                    Response responseBody = new Response("success", "注销成功！");
-                    out.write(objectMapper.writeValueAsString(responseBody));
+                    out.write(objectMapper.writeValueAsString(Response.error("注销成功！")));
                     out.flush();
                     out.close();
                 })
                 .and().rememberMe()
                 .rememberMeParameter("remember")
                 .userDetailsService(userService)
-                .and().cors(Customizer.withDefaults())
-                .csrf().disable();
+                .and().csrf().disable();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000");
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
-        configuration.setAllowedHeaders(Arrays.asList("content-type", "authorization"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", configuration);
-        return source;
-
-
-    }
 }
