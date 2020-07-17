@@ -8,5 +8,5 @@ public interface ArticleService {
 
     Article getArticleById(int articleId);
 
-    PageInfo<?> listArticles(int categoryId, int pageNumber, int pageSize);
+    PageInfo<?> listArticles(int categoryId, int pageNum, int pageSize);
 }

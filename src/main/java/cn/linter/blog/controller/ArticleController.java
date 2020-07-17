@@ -29,9 +29,9 @@ public class ArticleController {
 
     @GetMapping("/articles")
     public Response<?> listArticles(@RequestParam(value = "categoryId", defaultValue = "0") int categoryId,
-                                    @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
+                                    @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                     @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        PageInfo<?> pageInfo = articleService.listArticles(categoryId, pageNumber, pageSize);
+        PageInfo<?> pageInfo = articleService.listArticles(categoryId, pageNum, pageSize);
         if (pageInfo.getList() == null) {
             return Response.error("目标分类下暂无文章！");
         }

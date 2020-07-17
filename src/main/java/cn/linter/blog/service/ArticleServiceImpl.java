@@ -30,8 +30,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public PageInfo<?> listArticles(int categoryId, int pageNumber, int pageSize) {
-        PageHelper.startPage(pageNumber, pageSize);
+    public PageInfo<?> listArticles(int categoryId, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         return PageInfo.of(articleMapper.selectArticles(categoryId), 5);
     }
 }
