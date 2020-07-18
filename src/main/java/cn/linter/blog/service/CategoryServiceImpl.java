@@ -19,4 +19,10 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> listCategories() {
         return categoryMapper.selectCategories();
     }
+
+    @Override
+    public Category getCategoryById(int categoryId) {
+        return categoryMapper.selectCategoryById(categoryId);
+    }
+
 }
