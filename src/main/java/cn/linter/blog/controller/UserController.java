@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class UserController {
 
-    @Value("${blog.enableRegister}")
+    @Value("${blog.register.enable}")
     private boolean enableRegister;
 
     private final UserService userService;
