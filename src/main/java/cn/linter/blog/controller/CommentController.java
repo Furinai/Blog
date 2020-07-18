@@ -32,7 +32,7 @@ public class CommentController {
     @GetMapping("/comments")
     public Response<?> getComments(@RequestParam(value = "articleId", defaultValue = "0") int articleId,
                                    @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                   @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
+                                   @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         PageInfo<?> pageInfo = commentService.listComments(articleId, pageNum, pageSize);
         if (pageInfo.getList() == null) {
             return Response.error("评论列表获取失败！");
