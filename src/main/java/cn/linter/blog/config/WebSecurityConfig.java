@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler((request, response, authentication) -> {
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
-                    out.write(objectMapper.writeValueAsString(Response.error("登录成功！")));
+                    out.write(objectMapper.writeValueAsString(Response.success("登录成功！")));
                     out.flush();
                     out.close();
                 })
@@ -68,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler((request, response, authentication) -> {
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
-                    out.write(objectMapper.writeValueAsString(Response.error("注销成功！")));
+                    out.write(objectMapper.writeValueAsString(Response.success("注销成功！")));
                     out.flush();
                     out.close();
                 })
