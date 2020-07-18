@@ -3,7 +3,6 @@ package cn.linter.blog.config;
 import cn.linter.blog.entity.Response;
 import cn.linter.blog.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,7 +16,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
     private final ObjectMapper objectMapper;
 
-    @Autowired
     public WebSecurityConfig(UserService userService, ObjectMapper objectMapper) {
         this.userService = userService;
         this.objectMapper = objectMapper;

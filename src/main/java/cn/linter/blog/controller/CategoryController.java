@@ -3,7 +3,6 @@ package cn.linter.blog.controller;
 import cn.linter.blog.entity.Category;
 import cn.linter.blog.entity.Response;
 import cn.linter.blog.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,6 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @Autowired
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }

@@ -4,7 +4,6 @@ import cn.linter.blog.entity.Role;
 import cn.linter.blog.entity.User;
 import cn.linter.blog.mapper.RoleMapper;
 import cn.linter.blog.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ public class UserServiceImpl implements UserService {
 
     private final BCryptPasswordEncoder encoder;
 
-    @Autowired
     public UserServiceImpl(UserMapper userMapper, RoleMapper rolesMapper, BCryptPasswordEncoder encoder) {
         this.userMapper = userMapper;
         this.rolesMapper = rolesMapper;

@@ -4,7 +4,6 @@ import cn.linter.blog.entity.Article;
 import cn.linter.blog.entity.Response;
 import cn.linter.blog.service.ArticleService;
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,7 +12,6 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
-    @Autowired
     public ArticleController(ArticleService articleService) {
         this.articleService = articleService;
     }

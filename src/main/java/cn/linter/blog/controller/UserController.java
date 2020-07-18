@@ -3,7 +3,6 @@ package cn.linter.blog.controller;
 import cn.linter.blog.entity.Response;
 import cn.linter.blog.entity.User;
 import cn.linter.blog.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
