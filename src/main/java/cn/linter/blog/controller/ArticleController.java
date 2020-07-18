@@ -27,6 +27,15 @@ public class ArticleController {
         return Response.error("发表失败！");
     }
 
+    @GetMapping("/article/{id}")
+    public Response<?> getArticleById(@PathVariable("id") int articleId) {
+        Article article = articleService.getArticleById(articleId);
+        if (article == null) {
+            return Response.error("目标文章不存在!");
+        }
+        return Response.success("文章获取成功！", article);
+    }
+
     @GetMapping("/articles")
     public Response<?> listArticles(@RequestParam(value = "categoryId", defaultValue = "0") int categoryId,
                                     @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
@@ -38,12 +47,4 @@ public class ArticleController {
         return Response.success("文章列表获取成功！", pageInfo);
     }
 
-    @GetMapping("/article/{id}")
-    public Response<?> getArticleById(@PathVariable("id") int articleId) {
-        Article article = articleService.getArticleById(articleId);
-        if (article == null) {
-            return Response.error("目标文章不存在!");
-        }
-        return Response.success("文章获取成功！", article);
-    }
 }

@@ -25,7 +25,7 @@
         update article
         set view_count = view_count + 1
         where article.id = #{articleId};
-        select article.id, article.title, article.content,
+        select article.id, article.title, article.synopsis, article.content,
                article.created_time, article.view_count, article.comment_count,
                category.id as category_id, category.name, category.icon
         from article,category
