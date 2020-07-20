@@ -22,7 +22,8 @@ public class CommentController {
     public Response<?> addComment(@RequestBody Comment comment, @AuthenticationPrincipal User user) {
         int result = commentService.addComment(comment, user);
         if (result == 1) {
-            return Response.success("评论成功！");
+            PageInfo<?> pageInfo = commentService.listComments(comment.getArticleId(), 1, 10);
+            return Response.success("评论成功！", pageInfo);
         }
         return Response.error("评论失败！");
     }
