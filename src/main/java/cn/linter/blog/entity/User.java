@@ -3,11 +3,8 @@ package cn.linter.blog.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -56,11 +53,7 @@ public class User implements UserDetails {
 
     @Override
     @JsonIgnore
-    public List<GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
-        }
-        return authorities;
+    public List<Role> getAuthorities() {
+        return roles;
     }
 }
