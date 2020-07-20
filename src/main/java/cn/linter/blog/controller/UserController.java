@@ -22,7 +22,9 @@ public class UserController {
 
     @GetMapping("/auth")
     public Response<?> getAuthentication(@AuthenticationPrincipal User user) {
-        user.setPassword(null);
+        if (user != null) {
+            user.setPassword(null);
+        }
         return Response.success("用户信息获取成功！", user);
     }
 
