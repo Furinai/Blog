@@ -26,6 +26,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article getArticleById(int articleId) {
+        articleMapper.incrementViewCount(articleId);
         return articleMapper.selectArticleById(articleId);
     }
 

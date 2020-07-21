@@ -6,6 +6,7 @@
         from category
         order by sequence
     </select>
+
     <select id="selectCategoryById" resultType="category">
         select *
         from category

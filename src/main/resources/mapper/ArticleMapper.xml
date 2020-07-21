@@ -21,16 +21,25 @@
         values (#{title}, #{synopsis}, #{content}, #{createdTime}, #{category.id})
     </insert>
 
-    <select id="selectArticleById" resultMap="ArticleResultMap">
+    <update id="incrementViewCount">
         update article
         set view_count = view_count + 1
+        where article.id = #{articleId}
+    </update>
+
+    <update id="incrementCommentCount">
+        update article
+        set comment_count = comment_count + 1
         where article.id = #{articleId};
+    </update>
+
+    <select id="selectArticleById" resultMap="ArticleResultMap">
         select article.id, article.title, article.synopsis, article.content,
                article.created_time, article.view_count, article.comment_count,
                category.id as category_id, category.name, category.icon
         from article,category
         where article.id = #{articleId}
-          and article.category_id = category.id;
+          and article.category_id = category.id
     </select>
 
     <select id="selectArticles" resultMap="ArticleResultMap">

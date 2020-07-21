@@ -14,9 +14,7 @@
 
     <insert id="insertComment">
         insert into comment(content, user_id, article_id, created_time)
-        values (#{content}, #{user.id}, #{articleId}, #{createdTime});
-        update article set comment_count = comment_count + 1
-        where article.id = #{articleId};
+        values (#{content}, #{user.id}, #{articleId}, #{createdTime})
     </insert>
 
     <select id="selectComments" resultMap="CommentResultMap">
