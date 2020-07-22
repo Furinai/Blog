@@ -1,35 +1,40 @@
 package cn.linter.blog.controller;
 
-import org.springframework.boot.system.ApplicationHome;
+import cn.linter.blog.entity.Response;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @RestController
-@RequestMapping("/admin/api")
+@RequestMapping("api/admin")
 public class UploadController {
+
+    @Value("${blog.upload.image.location}")
+    private String location;
+
     @PostMapping("/image")
-    public Map<String, String> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
-        String rootPath;
-        String os = System.getProperty("os.name");
-        if (os.toLowerCase().startsWith("win")) {
-            rootPath = new ApplicationHome(getClass()).getSource().getPath();
-        } else {
-            rootPath = new ApplicationHome(getClass()).getSource().getParent();
+    public Response<?> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String date = LocalDate.now().format(formatter);
+        String filePath = location + "/" + date + "/";
+        File folder = new File(filePath);
+        if (!folder.exists()) {
+            if (!folder.mkdirs()) {
+                return Response.error("文件夹创建失败！");
+            }
         }
-        Map<String, String> map = new HashMap<>();
         String fileName = file.getOriginalFilename();
-        String filePath = rootPath + "/static/file/" + fileName;
-        Files.write(Paths.get(filePath), file.getBytes());
-        map.put("location", "/image/" + fileName);
-        return map;
+        Files.write(Paths.get(filePath + fileName), file.getBytes());
+        return Response.success("上传成功！", "/upload/image/" + date + "/" + fileName);
     }
 }
