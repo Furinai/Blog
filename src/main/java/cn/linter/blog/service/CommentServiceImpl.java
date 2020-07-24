@@ -23,7 +23,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int addComment(Comment comment, User user) {
         articleMapper.incrementCommentCount(comment.getArticleId());
         comment.setUser(user);
