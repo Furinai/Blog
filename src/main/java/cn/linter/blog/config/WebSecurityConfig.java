@@ -23,11 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/admin/**").authenticated()
-                .antMatchers("/admin/**").hasRole("admin")
-                .antMatchers("post", "/api/comment").authenticated()
-                .and().formLogin()
+        http.formLogin()
                 .loginProcessingUrl("/api/login")
                 .successHandler((request, response, authentication) -> {
                     response.setContentType("application/json;charset=utf-8");
