@@ -21,15 +21,15 @@ public class Response<T> {
     }
 
     public static <T> Response<T> success(String message) {
-        return new Response<T>("success", message);
+        return new Response<>("success", message);
     }
 
     public static <T> Response<T> error(String message) {
-        return new Response<T>("error", message);
+        return new Response<>("error", message);
     }
 
     public static <T> Response<T> success(String message, T data) {
-        return new Response<T>("success", message, data);
+        return new Response<>("success", message, data);
     }
 
 }
