@@ -1,5 +1,6 @@
 package cn.linter.blog.config;
 
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -16,13 +17,12 @@ public class LocalDateTimeFormatConfig {
     private String pattern;
 
     @Bean
-    public LocalDateTimeSerializer localDateTimeDeserializer() {
-        return new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(pattern));
-    }
-
-    @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
-        return builder -> builder.serializerByType(LocalDateTime.class, localDateTimeDeserializer());
+        return builder -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+            builder.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter));
+            builder.deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(formatter));
+        };
     }
 
 }
