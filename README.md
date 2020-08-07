@@ -1,5 +1,5 @@
 ### 简介
-基于SpringBoot和Nuxt的前后端分离博客，线上地址：[citru.cn](citru.cn)
+基于SpringBoot和Nuxt的前后端分离博客，线上地址：[citru.cn](https://citru.cn)
 ### 项目地址
 后端项目：[https://github.com/citrucn/Blog](https://github.com/citrucn/Blog)  
 后端码云地址：[https://gitee.com/citru/Blog](https://gitee.com/citru/Blog)  
