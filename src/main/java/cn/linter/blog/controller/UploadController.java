@@ -2,6 +2,7 @@ package cn.linter.blog.controller;
 
 import cn.linter.blog.entity.Response;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,13 +17,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @RestController
-@RequestMapping("api/admin")
+@RequestMapping("/api")
 public class UploadController {
 
     @Value("${blog.upload.image.location}")
     private String location;
 
     @PostMapping("/image")
+    @PreAuthorize("hasRole('admin')")
     public Response<?> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         String date = LocalDate.now().format(formatter);
