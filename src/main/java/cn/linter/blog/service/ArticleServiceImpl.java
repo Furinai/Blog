@@ -25,6 +25,16 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public int updateArticle(Article article) {
+        return articleMapper.updateArticle(article);
+    }
+
+    @Override
+    public int deleteArticle(int[] ids) {
+        return articleMapper.deleteArticle(ids);
+    }
+
+    @Override
     public Article getArticleById(int articleId) {
         articleMapper.incrementViewCount(articleId);
         return articleMapper.selectArticleById(articleId);

@@ -33,6 +33,21 @@
         where article.id = #{articleId};
     </update>
 
+    <update id="updateArticle">
+        update article
+        set title = #{title}, synopsis = #{synopsis}, content = #{content},
+            created_time = #{createdTime}, category_id = #{category.id}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteArticle">
+        delete from article
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
     <select id="selectArticleById" resultMap="ArticleResultMap">
         select article.id, article.title, article.synopsis, article.content,
                article.created_time, article.view_count, article.comment_count,

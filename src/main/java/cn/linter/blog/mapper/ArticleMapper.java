@@ -10,6 +10,10 @@ import java.util.List;
 public interface ArticleMapper {
     int insertArticle(Article article);
 
+    int updateArticle(Article article);
+
+    int deleteArticle(@Param("ids") int[] ids);
+
     void incrementViewCount(@Param("articleId") int articleId);
 
     void incrementCommentCount(@Param("articleId") int articleId);
