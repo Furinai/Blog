@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Data
 @Alias("Role")
 public class Role implements GrantedAuthority {
-    private int id;
+    private Integer id;
     private String name;
     private static final long serialVersionUID = 1L;
 

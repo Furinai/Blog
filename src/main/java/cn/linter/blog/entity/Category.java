@@ -8,9 +8,9 @@ import java.io.Serializable;
 @Data
 @Alias("Category")
 public class Category implements Serializable {
-    private int id;
+    private Integer id;
     private String name;
     private String icon;
-    private int sequence;
+    private Integer sequence;
     private static final long serialVersionUID = 1L;
 }

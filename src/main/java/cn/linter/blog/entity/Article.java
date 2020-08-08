@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 @Data
 @Alias("Article")
 public class Article implements Serializable {
-    private int id;
+    private Integer id;
     private String title;
     private String synopsis;
     private String content;
-    private int viewCount;
-    private int commentCount;
+    private Integer viewCount;
+    private Integer commentCount;
     private Category category;
     private LocalDateTime createdTime;
     private static final long serialVersionUID = 1L;

@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Alias("User")
 public class User implements UserDetails {
-    private int id;
+    private Integer id;
     private String email;
     private String username;
     private String password;

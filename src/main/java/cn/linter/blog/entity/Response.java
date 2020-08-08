@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class Response<T> {
-
     private String status;
     private String message;
     private T data;
@@ -31,5 +30,4 @@ public class Response<T> {
     public static <T> Response<T> success(String message, T data) {
         return new Response<>("success", message, data);
     }
-
 }

@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 @Data
 @Alias("Comment")
 public class Comment implements Serializable {
-    private int id;
+    private Integer id;
     private User user;
     private String content;
-    private int articleId;
+    private Integer articleId;
     private LocalDateTime createdTime;
     private static final long serialVersionUID = 1L;
 }
