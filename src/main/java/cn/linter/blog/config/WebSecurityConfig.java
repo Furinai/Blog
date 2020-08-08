@@ -4,6 +4,7 @@ import cn.linter.blog.entity.Response;
 import cn.linter.blog.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
