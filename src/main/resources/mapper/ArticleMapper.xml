@@ -33,6 +33,15 @@
         where article.id = #{articleId};
     </update>
 
+    <update id="decreaseCommentCount">
+        <foreach collection="ids" item="id">
+            update article
+            set comment_count = comment_count - 1
+            where id =
+            (select comment.article_id from comment where id = #{id})
+        </foreach>
+    </update>
+
     <update id="updateArticle">
         update article
         set title = #{title}, synopsis = #{synopsis}, content = #{content},
@@ -48,13 +57,22 @@
         </foreach>
     </delete>
 
+    <delete id="deleteArticleByCategoryId">
+        delete
+        from article
+        where category_id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
     <select id="selectArticleById" resultMap="ArticleResultMap">
         select article.id, article.title, article.synopsis, article.content,
                article.created_time, article.view_count, article.comment_count,
                category.id as category_id, category.name, category.icon
         from article,category
-        where article.id = #{articleId}
-          and article.category_id = category.id
+        where article.category_id = category.id
+          and article.id = #{articleId}
     </select>
 
     <select id="selectArticles" resultMap="ArticleResultMap">

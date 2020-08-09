@@ -14,9 +14,13 @@ public interface ArticleMapper {
 
     int deleteArticle(@Param("ids") int[] ids);
 
+    void deleteArticleByCategoryId(@Param("ids") int[] ids);
+
     void incrementViewCount(@Param("articleId") int articleId);
 
     void incrementCommentCount(@Param("articleId") int articleId);
+
+    void decreaseCommentCount(@Param("ids") int[] ids);
 
     Article selectArticleById(@Param("articleId") int articleId);
 

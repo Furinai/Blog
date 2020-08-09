@@ -2,9 +2,11 @@ package cn.linter.blog.service;
 
 import cn.linter.blog.entity.Article;
 import cn.linter.blog.mapper.ArticleMapper;
+import cn.linter.blog.mapper.CommentMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -12,15 +14,16 @@ import java.time.LocalDateTime;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleMapper articleMapper;
+    private final CommentMapper commentMapper;
 
-    public ArticleServiceImpl(ArticleMapper articleMapper) {
+    public ArticleServiceImpl(ArticleMapper articleMapper, CommentMapper commentMapper) {
         this.articleMapper = articleMapper;
+        this.commentMapper = commentMapper;
     }
 
     @Override
     public int addArticle(Article article) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        article.setCreatedTime(localDateTime);
+        article.setCreatedTime(LocalDateTime.now());
         return articleMapper.insertArticle(article);
     }
 
@@ -30,7 +33,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deleteArticle(int[] ids) {
+        commentMapper.deleteCommentByArticleId(ids);
         return articleMapper.deleteArticle(ids);
     }
 
