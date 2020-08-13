@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
-public class LocalDateTimeFormatConfig {
+public class DateTimeFormatterConfig {
 
     @Value("${spring.jackson.date-format}")
     private String pattern;

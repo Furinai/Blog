@@ -1,12 +1,12 @@
 package cn.linter.blog.config;
 
 import cn.linter.blog.entity.Response;
-import cn.linter.blog.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -15,11 +15,11 @@ import java.io.PrintWriter;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final PersistentTokenRepository tokenRepository;
     private final ObjectMapper objectMapper;
 
-    public WebSecurityConfig(UserService userService, ObjectMapper objectMapper) {
-        this.userService = userService;
+    public WebSecurityConfig(PersistentTokenRepository tokenRepository, ObjectMapper objectMapper) {
+        this.tokenRepository = tokenRepository;
         this.objectMapper = objectMapper;
     }
 
@@ -68,9 +68,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     out.close();
                 })
                 .and().rememberMe()
+                .tokenRepository(tokenRepository)
                 .rememberMeParameter("remember")
-                .userDetailsService(userService)
                 .and().csrf().disable();
     }
-
 }
