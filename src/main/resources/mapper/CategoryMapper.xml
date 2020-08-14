@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.linter.blog.mapper.CategoryMapper">
+    <insert id="insertCategory">
+        insert into category(icon, name, sequence)
+        values (#{icon}, #{name}, #{sequence})
+    </insert>
+
+    <update id="updateCategory">
+        update category
+        set icon = #{icon}, name = #{name}, sequence = #{sequence}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCategory">
+        delete
+        from category
+        where id = #{id}
+    </delete>
+
     <select id="selectCategories" resultType="category">
-        select *
+        select id, icon, name, sequence
         from category
         order by sequence
     </select>
 
     <select id="selectCategoryById" resultType="category">
-        select *
+        select id, icon, name, sequence
         from category
         where category.id = #{categoryId}
     </select>

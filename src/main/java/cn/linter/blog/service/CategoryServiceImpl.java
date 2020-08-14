@@ -1,8 +1,10 @@
 package cn.linter.blog.service;
 
 import cn.linter.blog.entity.Category;
+import cn.linter.blog.mapper.ArticleMapper;
 import cn.linter.blog.mapper.CategoryMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -10,14 +12,28 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryMapper categoryMapper;
+    private final ArticleMapper articleMapper;
 
-    public CategoryServiceImpl(CategoryMapper categoryMapper) {
+    public CategoryServiceImpl(CategoryMapper categoryMapper, ArticleMapper articleMapper) {
         this.categoryMapper = categoryMapper;
+        this.articleMapper = articleMapper;
     }
 
     @Override
-    public List<Category> listCategories() {
-        return categoryMapper.selectCategories();
+    public int addCategory(Category category) {
+        return categoryMapper.insertCategory(category);
+    }
+
+    @Override
+    public int updateCategory(Category category) {
+        return categoryMapper.updateCategory(category);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int deleteCategory(int id) {
+        articleMapper.deleteArticleByCategoryId(id);
+        return categoryMapper.deleteCategory(id);
     }
 
     @Override
@@ -25,4 +41,8 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.selectCategoryById(categoryId);
     }
 
+    @Override
+    public List<Category> listCategories() {
+        return categoryMapper.selectCategories();
+    }
 }

@@ -28,15 +28,30 @@ public class UploadController {
     public Response<?> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         String date = LocalDate.now().format(formatter);
-        String filePath = location + "/" + date + "/";
+        String filePath = location + "image/" + date + "/";
         File folder = new File(filePath);
         if (!folder.exists()) {
             if (!folder.mkdirs()) {
-                return Response.error("文件夹创建失败！");
+                return Response.error("图片文件夹创建失败！");
             }
         }
         String fileName = file.getOriginalFilename();
         Files.write(Paths.get(filePath + fileName), file.getBytes());
         return Response.success("上传成功！", "/upload/image/" + date + "/" + fileName);
+    }
+
+    @PostMapping("/icon")
+    @PreAuthorize("hasRole('admin')")
+    public Response<?> uploadIcon(@RequestParam("file") MultipartFile file) throws IOException {
+        String filePath = location + "icon/";
+        File folder = new File(filePath);
+        if (!folder.exists()) {
+            if (!folder.mkdirs()) {
+                return Response.error("图标文件夹创建失败！");
+            }
+        }
+        String fileName = file.getOriginalFilename();
+        Files.write(Paths.get(filePath + fileName), file.getBytes());
+        return Response.success("上传成功！", "/upload/icon/" + fileName);
     }
 }
