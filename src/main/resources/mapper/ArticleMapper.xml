@@ -33,15 +33,6 @@
         where article.id = #{articleId};
     </update>
 
-    <update id="decreaseCommentCount">
-        <foreach collection="ids" item="id">
-            update article
-            set comment_count = comment_count - 1
-            where id =
-            (select comment.article_id from comment where id = #{id})
-        </foreach>
-    </update>
-
     <update id="updateArticle">
         update article
         set title = #{title}, synopsis = #{synopsis}, content = #{content},
@@ -60,10 +51,7 @@
     <delete id="deleteArticleByCategoryId">
         delete
         from article
-        where category_id in
-        <foreach collection="ids" item="id" open="(" separator="," close=")">
-            #{id}
-        </foreach>
+        where category_id = #{id}
     </delete>
 
     <select id="selectArticleById" resultMap="ArticleResultMap">
@@ -86,4 +74,16 @@
         </if>
         order by article.created_time desc
     </select>
+
+    <update id="decreaseCommentCount">
+        update article
+        set comment_count = comment_count -
+        <foreach collection="maps" item="map" open="case" close="end">
+            when id = #{map.article_id} then #{map.comment_count}
+        </foreach>
+        where id in
+        <foreach collection="maps" item="map" open="(" separator="," close=")">
+            #{map.article_id}
+        </foreach>
+    </update>
 </mapper>
