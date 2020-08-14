@@ -17,12 +17,55 @@
         values (#{content}, #{user.id}, #{articleId}, #{createdTime})
     </insert>
 
+    <update id="updateComment">
+        update comment
+        set content = #{content}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteComment">
+        delete from comment
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteCommentByUserId">
+        delete
+        from comment
+        where user_id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteCommentByArticleId">
+        delete from comment
+        where article_id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
     <select id="selectComments" resultMap="CommentResultMap">
         select comment.id, comment.content, comment.created_time, comment.article_id,
-               user.id as user_id, user.username
+        user.id as user_id, user.username
         from comment, user
         where comment.user_id = user.id
-          and comment.article_id = #{articleId}
+        <if test="articleId != 0">
+            and comment.article_id = #{articleId}
+        </if>
         order by comment.created_time desc
+    </select>
+
+    <select id="computeCommentCount" resultType="Map">
+        select article_id, count(*) as comment_count
+        from comment
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        group by article_id
     </select>
 </mapper>

@@ -32,6 +32,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public int updateComment(Comment comment) {
+        return commentMapper.updateComment(comment);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int deleteComment(int[] ids) {
+        articleMapper.decreaseCommentCount(commentMapper.computeCommentCount(ids));
+        return commentMapper.deleteComment(ids);
+    }
+
+    @Override
     public PageInfo<?> listComments(int articleId, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return new PageInfo<>(commentMapper.selectComments(articleId), 5);
