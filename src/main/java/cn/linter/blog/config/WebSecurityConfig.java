@@ -1,6 +1,7 @@
 package cn.linter.blog.config;
 
 import cn.linter.blog.entity.Response;
+import cn.linter.blog.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -16,10 +17,12 @@ import java.io.PrintWriter;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PersistentTokenRepository tokenRepository;
+    private final UserService userService;
     private final ObjectMapper objectMapper;
 
-    public WebSecurityConfig(PersistentTokenRepository tokenRepository, ObjectMapper objectMapper) {
+    public WebSecurityConfig(PersistentTokenRepository tokenRepository, UserService userService, ObjectMapper objectMapper) {
         this.tokenRepository = tokenRepository;
+        this.userService = userService;
         this.objectMapper = objectMapper;
     }
 
@@ -69,6 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .and().rememberMe()
                 .tokenRepository(tokenRepository)
+                .userDetailsService(userService)
                 .rememberMeParameter("remember")
                 .and().csrf().disable();
     }
