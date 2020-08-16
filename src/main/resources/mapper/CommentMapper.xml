@@ -23,7 +23,7 @@
         where id = #{id}
     </update>
 
-    <delete id="deleteComment">
+    <delete id="deleteCommentByIds">
         delete from comment
         where id in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
@@ -31,24 +31,32 @@
         </foreach>
     </delete>
 
-    <delete id="deleteCommentByUserId">
+    <delete id="deleteCommentByUserIds">
         delete
         from comment
         where user_id in
-        <foreach collection="ids" item="id" open="(" separator="," close=")">
+        <foreach collection="userIds" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
 
-    <delete id="deleteCommentByArticleId">
-        delete from comment
+    <delete id="deleteCommentByCategoryId">
+        delete
+        from comment
         where article_id in
-        <foreach collection="ids" item="id" open="(" separator="," close=")">
+        (select id from article where category_id = #{categoryId})
+    </delete>
+
+    <delete id="deleteCommentByArticleIds">
+        delete
+        from comment
+        where article_id in
+        <foreach collection="articleIds" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
 
-    <select id="selectComments" resultMap="CommentResultMap">
+    <select id="selectCommentsByArticleId" resultMap="CommentResultMap">
         select comment.id, comment.content, comment.created_time, comment.article_id,
         user.id as user_id, user.username
         from comment, user
@@ -59,11 +67,21 @@
         order by comment.created_time desc
     </select>
 
-    <select id="computeCommentCount" resultType="Map">
+    <select id="countCommentByIds" resultType="Map">
         select article_id, count(*) as comment_count
         from comment
         where id in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        group by article_id
+    </select>
+
+    <select id="countCommentByUserIds" resultType="Map">
+        select article_id, count(*) as comment_count
+        from comment
+        where user_id in
+        <foreach collection="userIds" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
         group by article_id

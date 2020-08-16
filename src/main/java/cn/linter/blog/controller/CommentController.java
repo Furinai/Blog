@@ -22,7 +22,8 @@ public class CommentController {
     @PostMapping("/comment")
     @PreAuthorize("isAuthenticated()")
     public Response<?> addComment(@RequestBody Comment comment, @AuthenticationPrincipal User user) {
-        int result = commentService.addComment(comment, user);
+        comment.setUser(user);
+        int result = commentService.addComment(comment);
         if (result == 1) {
             PageInfo<?> pageInfo = commentService.listComments(comment.getArticleId(), 1, 10);
             return Response.success("评论成功！", pageInfo);

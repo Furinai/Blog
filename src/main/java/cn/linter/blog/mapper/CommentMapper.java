@@ -13,13 +13,17 @@ public interface CommentMapper {
 
     int updateComment(Comment comment);
 
-    int deleteComment(@Param("ids") int[] ids);
+    int deleteCommentByIds(@Param("ids") int[] ids);
 
-    int deleteCommentByUserId(@Param("ids") int[] ids);
+    void deleteCommentByUserIds(@Param("userIds") int[] userIds);
 
-    int deleteCommentByArticleId(@Param("ids") int[] ids);
+    void deleteCommentByArticleIds(@Param("articleIds") int[] articleIds);
 
-    List<Comment> selectComments(@Param("articleId") int articleId);
+    void deleteCommentByCategoryId(@Param("categoryId") int categoryId);
 
-    List<Map<String, Integer>> computeCommentCount(@Param("ids") int[] ids);
+    List<Comment> selectCommentsByArticleId(@Param("articleId") int articleId);
+
+    List<Map<String, Integer>> countCommentByIds(@Param("ids") int[] ids);
+
+    List<Map<String, Integer>> countCommentByUserIds(@Param("userIds") int[] userIds);
 }

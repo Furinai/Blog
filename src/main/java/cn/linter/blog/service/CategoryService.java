@@ -12,7 +12,7 @@ public interface CategoryService {
 
     int deleteCategory(int id);
 
-    Category getCategoryById(int categoryId);
+    Category getCategory(int categoryId);
 
     List<Category> listCategories();
 }

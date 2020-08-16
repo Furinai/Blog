@@ -1,7 +1,6 @@
 package cn.linter.blog.service;
 
 import cn.linter.blog.entity.Comment;
-import cn.linter.blog.entity.User;
 import cn.linter.blog.mapper.ArticleMapper;
 import cn.linter.blog.mapper.CommentMapper;
 import com.github.pagehelper.PageHelper;
@@ -10,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -24,9 +25,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int addComment(Comment comment, User user) {
-        articleMapper.incrementCommentCount(comment.getArticleId());
-        comment.setUser(user);
+    public int addComment(Comment comment) {
+        int id = comment.getArticleId();
+        articleMapper.increaseCommentCount(id);
         comment.setCreatedTime(LocalDateTime.now());
         return commentMapper.insertComment(comment);
     }
@@ -39,13 +40,15 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteComment(int[] ids) {
-        articleMapper.decreaseCommentCount(commentMapper.computeCommentCount(ids));
-        return commentMapper.deleteComment(ids);
+        List<Map<String, Integer>> maps;
+        maps = commentMapper.countCommentByIds(ids);
+        articleMapper.decreaseCommentCount(maps);
+        return commentMapper.deleteCommentByIds(ids);
     }
 
     @Override
     public PageInfo<?> listComments(int articleId, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return PageInfo.of(commentMapper.selectComments(articleId), 5);
+        return PageInfo.of(commentMapper.selectCommentsByArticleId(articleId), 5);
     }
 }
