@@ -1,5 +1,4 @@
 SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- Table structure for article
@@ -121,7 +120,7 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'kwxy1314@qq.com', 'Linter', '$2a$10$en2JxasguDAPugsYRPdHGOTazazkihMqq3gC9yi8a8yBeQhpwFgCu');
+INSERT INTO `user` VALUES (1, 'admin@linter.cn', 'Linter', '$2a$10$Bvh6sSkAdNgwIgEyHvTY5OVcmyEfiss3LcJDYUNygeuYZtBArewHK');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -138,5 +137,3 @@ CREATE TABLE `user_role`  (
 -- Records of user_role
 -- ----------------------------
 INSERT INTO `user_role` VALUES (1, '1', '1');
-
-SET FOREIGN_KEY_CHECKS = 1;
