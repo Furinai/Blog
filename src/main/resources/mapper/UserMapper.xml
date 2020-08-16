@@ -1,32 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.linter.blog.mapper.UserMapper">
-    <insert id="insertUser" parameterType="User">
+    <resultMap id="UserResultMap" type="User">
+        <id property="id" column="id"/>
+        <result property="email" column="email"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <collection property="roles" ofType="Role">
+            <id property="id" column="role_id"/>
+            <result property="name" column="name"/>
+        </collection>
+    </resultMap>
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
         insert into user(email, username, password)
         values (#{email}, #{username}, #{password})
     </insert>
 
-    <delete id="deleteUser">
+    <update id="updateUser">
+        update user
+        set email = #{email}, username = #{username}
+        <if test="password != null">
+            , password = #{password}
+        </if>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUserByIds">
         delete
         from user
-        where id = #{id}
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </delete>
 
-    <select id="selectUserById" resultType="User">
-        select *
-        from user
-        where Id = #{Id}
+    <sql id="selectUserSql">
+        select user.id, user.email, user.username, user.password,
+                role.id as role_id, role.name
+        from user, role, user_role
+        where user.id = user_role.user_id
+        and role.id = user_role.role_id
+    </sql>
+
+    <select id="selectUserById" resultMap="UserResultMap">
+        <include refid="selectUserSql"/>
+        and user.id = #{Id}
     </select>
 
-    <select id="selectUserByEmail" resultType="User">
-        select *
-        from user
-        where email = #{email}
+    <select id="selectUserByEmail" resultMap="UserResultMap">
+        <include refid="selectUserSql"/>
+        and user.email = #{email}
     </select>
 
-    <select id="selectUserByUsername" resultType="User">
-        select *
-        from user
-        where username = #{username}
+    <select id="selectUserByUsername" resultMap="UserResultMap">
+        <include refid="selectUserSql"/>
+        and user.username = #{username}
+    </select>
+
+    <select id="selectUsers" resultMap="UserResultMap">
+        select user.id, user.email, user.username,
+               role.id as role_id, role.name
+        from user, role, user_role
+        where user.id = user_role.user_id
+          and role.id = user_role.role_id
     </select>
 </mapper>
