@@ -21,18 +21,6 @@
         values (#{title}, #{synopsis}, #{content}, #{createdTime}, #{category.id})
     </insert>
 
-    <update id="incrementViewCount">
-        update article
-        set view_count = view_count + 1
-        where article.id = #{articleId}
-    </update>
-
-    <update id="incrementCommentCount">
-        update article
-        set comment_count = comment_count + 1
-        where article.id = #{articleId};
-    </update>
-
     <update id="updateArticle">
         update article
         set title = #{title}, synopsis = #{synopsis}, content = #{content},
@@ -40,18 +28,13 @@
         where id = #{id}
     </update>
 
-    <delete id="deleteArticle">
-        delete from article
+    <delete id="deleteArticleByIds">
+        delete
+        from article
         where id in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
-    </delete>
-
-    <delete id="deleteArticleByCategoryId">
-        delete
-        from article
-        where category_id = #{id}
     </delete>
 
     <select id="selectArticleById" resultMap="ArticleResultMap">
@@ -60,8 +43,26 @@
                category.id as category_id, category.name, category.icon
         from article,category
         where article.category_id = category.id
-          and article.id = #{articleId}
+          and article.id = #{id}
     </select>
+
+    <delete id="deleteArticleByCategoryId">
+        delete
+        from article
+        where category_id = #{categoryId}
+    </delete>
+
+    <update id="increaseViewCount">
+        update article
+        set view_count = view_count + 1
+        where article.id = #{articleId}
+    </update>
+
+    <update id="increaseCommentCount">
+        update article
+        set comment_count = comment_count + 1
+        where article.id = #{articleId}
+    </update>
 
     <select id="selectArticles" resultMap="ArticleResultMap">
         select article.id, article.title, article.synopsis,

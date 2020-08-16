@@ -13,17 +13,17 @@ public interface ArticleMapper {
 
     int updateArticle(Article article);
 
-    int deleteArticle(@Param("ids") int[] ids);
+    int deleteArticleByIds(@Param("ids") int[] ids);
 
-    void deleteArticleByCategoryId(@Param("id") int id);
+    Article selectArticleById(@Param("id") int id);
 
-    void incrementViewCount(@Param("articleId") int articleId);
+    void deleteArticleByCategoryId(@Param("categoryId") int categoryId);
 
-    void incrementCommentCount(@Param("articleId") int articleId);
+    void increaseViewCount(@Param("articleId") int articleId);
 
-    Article selectArticleById(@Param("articleId") int articleId);
-
-    List<Article> selectArticles(@Param("categoryId") int categoryId);
+    void increaseCommentCount(@Param("articleId") int articleId);
 
     void decreaseCommentCount(@Param("maps") List<Map<String, Integer>> maps);
+
+    List<Article> selectArticles(@Param("categoryId") int categoryId);
 }

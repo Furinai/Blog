@@ -49,7 +49,7 @@ public class ArticleController {
 
     @GetMapping("/article/{id}")
     public Response<?> getArticleById(@PathVariable("id") int articleId) {
-        Article article = articleService.getArticleById(articleId);
+        Article article = articleService.getArticle(articleId);
         if (article == null) {
             return Response.error("目标文章不存在!");
         }

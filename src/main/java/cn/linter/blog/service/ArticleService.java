@@ -10,7 +10,7 @@ public interface ArticleService {
 
     int deleteArticle(int[] ids);
 
-    Article getArticleById(int articleId);
+    Article getArticle(int articleId);
 
     PageInfo<?> listArticles(int categoryId, int pageNum, int pageSize);
 }

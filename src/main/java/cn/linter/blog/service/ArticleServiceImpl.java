@@ -35,13 +35,13 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteArticle(int[] ids) {
-        commentMapper.deleteCommentByArticleId(ids);
-        return articleMapper.deleteArticle(ids);
+        commentMapper.deleteCommentByArticleIds(ids);
+        return articleMapper.deleteArticleByIds(ids);
     }
 
     @Override
-    public Article getArticleById(int articleId) {
-        articleMapper.incrementViewCount(articleId);
+    public Article getArticle(int articleId) {
+        articleMapper.increaseViewCount(articleId);
         return articleMapper.selectArticleById(articleId);
     }
 

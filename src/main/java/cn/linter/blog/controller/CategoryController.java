@@ -50,7 +50,7 @@ public class CategoryController {
 
     @GetMapping("/category/{id}")
     public Response<?> getCategoryById(@PathVariable("id") int categoryId) {
-        Category category = categoryService.getCategoryById(categoryId);
+        Category category = categoryService.getCategory(categoryId);
         if (category == null) {
             return Response.error("目标分类不存在!");
         }
