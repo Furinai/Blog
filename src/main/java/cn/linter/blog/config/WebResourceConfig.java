@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebResourceConfig implements WebMvcConfigurer {
 
-    @Value("${blog.upload.image.location}")
+    @Value("${blog.upload.location}")
     private String location;
 
     @Override

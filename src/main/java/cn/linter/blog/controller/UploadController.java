@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("/api")
 public class UploadController {
 
-    @Value("${blog.upload.image.location}")
+    @Value("${blog.upload.location}")
     private String location;
 
     @PostMapping("/image")
