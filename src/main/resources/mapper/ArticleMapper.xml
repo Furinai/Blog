@@ -16,7 +16,7 @@
         </association>
     </resultMap>
 
-    <insert id="insertArticle">
+    <insert id="insertArticle" useGeneratedKeys="true" keyProperty="id">
         insert into article(title, synopsis, content, created_time, category_id)
         values (#{title}, #{synopsis}, #{content}, #{createdTime}, #{category.id})
     </insert>

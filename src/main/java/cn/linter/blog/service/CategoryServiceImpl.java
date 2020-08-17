@@ -1,9 +1,11 @@
 package cn.linter.blog.service;
 
+import cn.linter.blog.entity.Article;
 import cn.linter.blog.entity.Category;
 import cn.linter.blog.mapper.ArticleMapper;
 import cn.linter.blog.mapper.CategoryMapper;
 import cn.linter.blog.mapper.CommentMapper;
+import cn.linter.blog.repository.SearchRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,11 +17,14 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
     private final ArticleMapper articleMapper;
     private final CommentMapper commentMapper;
+    private final SearchRepository searchRepository;
 
-    public CategoryServiceImpl(CategoryMapper categoryMapper, ArticleMapper articleMapper, CommentMapper commentMapper) {
+    public CategoryServiceImpl(CategoryMapper categoryMapper, ArticleMapper articleMapper,
+                               CommentMapper commentMapper, SearchRepository searchRepository) {
         this.categoryMapper = categoryMapper;
         this.articleMapper = articleMapper;
         this.commentMapper = commentMapper;
+        this.searchRepository = searchRepository;
     }
 
     @Override
@@ -35,9 +40,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteCategory(int id) {
+        List<Article> articles = articleMapper.selectArticles(id);
         commentMapper.deleteCommentByCategoryId(id);
         articleMapper.deleteArticleByCategoryId(id);
-        return categoryMapper.deleteCategory(id);
+        int result = categoryMapper.deleteCategory(id);
+        searchRepository.deleteAll(articles);
+        return result;
     }
 
     @Override
