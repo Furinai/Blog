@@ -13,5 +13,5 @@ public interface UserService extends UserDetailsService {
 
     User getUser(int id);
 
-    PageInfo<?> listUsers(int pageNum, int pageSize);
+    PageInfo<User> listUsers(int pageNum, int pageSize);
 }

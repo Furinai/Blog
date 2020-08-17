@@ -21,11 +21,11 @@ public class CommentController {
 
     @PostMapping("/comment")
     @PreAuthorize("isAuthenticated()")
-    public Response<?> addComment(@RequestBody Comment comment, @AuthenticationPrincipal User user) {
+    public Response<PageInfo<Comment>> addComment(@RequestBody Comment comment, @AuthenticationPrincipal User user) {
         comment.setUser(user);
         int result = commentService.addComment(comment);
         if (result == 1) {
-            PageInfo<?> pageInfo = commentService.listComments(comment.getArticleId(), 1, 10);
+            PageInfo<Comment> pageInfo = commentService.listComments(comment.getArticleId(), 1, 10);
             return Response.success("评论成功！", pageInfo);
         }
         return Response.error("评论失败！");
@@ -52,10 +52,10 @@ public class CommentController {
     }
 
     @GetMapping("/comments")
-    public Response<?> getComments(@RequestParam(value = "articleId", defaultValue = "0") int articleId,
+    public Response<PageInfo<Comment>> getComments(@RequestParam(value = "articleId", defaultValue = "0") int articleId,
                                    @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        PageInfo<?> pageInfo = commentService.listComments(articleId, pageNum, pageSize);
+        PageInfo<Comment> pageInfo = commentService.listComments(articleId, pageNum, pageSize);
         if (pageInfo.getList() == null) {
             return Response.error("评论列表获取失败！");
         }

@@ -17,7 +17,7 @@ public class SearchController {
     }
 
     @GetMapping("/search")
-    public Response<?> searchArticle(@RequestParam(value = "keyword", defaultValue = "") String keyword,
+    public Response<Page<Article>> searchArticle(@RequestParam(value = "keyword", defaultValue = "") String keyword,
                                      @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
                                      @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         Page<Article> page = searchService.search(keyword, pageNum, pageSize);

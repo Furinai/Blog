@@ -48,7 +48,7 @@ public class ArticleController {
     }
 
     @GetMapping("/article/{id}")
-    public Response<?> getArticleById(@PathVariable("id") int articleId) {
+    public Response<Article> getArticleById(@PathVariable("id") int articleId) {
         Article article = articleService.getArticle(articleId);
         if (article == null) {
             return Response.error("目标文章不存在!");
@@ -57,10 +57,10 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public Response<?> listArticles(@RequestParam(value = "categoryId", defaultValue = "0") int categoryId,
-                                    @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        PageInfo<?> pageInfo = articleService.listArticles(categoryId, pageNum, pageSize);
+    public Response<PageInfo<Article>> listArticles(@RequestParam(value = "categoryId", defaultValue = "0") int categoryId,
+                                           @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                           @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        PageInfo<Article> pageInfo = articleService.listArticles(categoryId, pageNum, pageSize);
         if (pageInfo.getList() == null) {
             return Response.error("目标分类下暂无文章！");
         }

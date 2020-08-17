@@ -49,7 +49,7 @@ public class CategoryController {
     }
 
     @GetMapping("/category/{id}")
-    public Response<?> getCategoryById(@PathVariable("id") int categoryId) {
+    public Response<Category> getCategoryById(@PathVariable("id") int categoryId) {
         Category category = categoryService.getCategory(categoryId);
         if (category == null) {
             return Response.error("目标分类不存在!");
@@ -58,7 +58,7 @@ public class CategoryController {
     }
 
     @GetMapping("/categories")
-    public Response<?> getCategories() {
+    public Response<List<Category>> getCategories() {
         List<Category> categories = categoryService.listCategories();
         if (categories == null) {
             return Response.error("暂无文章分类！");

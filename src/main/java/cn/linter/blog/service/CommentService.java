@@ -10,5 +10,5 @@ public interface CommentService {
 
     int deleteComment(int[] ids);
 
-    PageInfo<?> listComments(int articleId, int pageNum, int pageSize);
+    PageInfo<Comment> listComments(int articleId, int pageNum, int pageSize);
 }

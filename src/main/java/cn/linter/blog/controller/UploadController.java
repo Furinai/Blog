@@ -25,7 +25,7 @@ public class UploadController {
 
     @PostMapping("/image")
     @PreAuthorize("hasRole('admin')")
-    public Response<?> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
+    public Response<String> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         String date = LocalDate.now().format(formatter);
         String filePath = location + "image/" + date + "/";
@@ -42,7 +42,7 @@ public class UploadController {
 
     @PostMapping("/icon")
     @PreAuthorize("hasRole('admin')")
-    public Response<?> uploadIcon(@RequestParam("file") MultipartFile file) throws IOException {
+    public Response<String> uploadIcon(@RequestParam("file") MultipartFile file) throws IOException {
         String filePath = location + "icon/";
         File folder = new File(filePath);
         if (!folder.exists()) {

@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping("/auth")
-    public Response<?> getAuthentication(@AuthenticationPrincipal User user) {
+    public Response<User> getAuthentication(@AuthenticationPrincipal User user) {
         if (user != null) {
             user.setPassword(null);
         }
@@ -81,7 +81,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public Response<?> getUser(@PathVariable("id") int id) {
+    public Response<User> getUser(@PathVariable("id") int id) {
         User user = userService.getUser(id);
         if (user == null) {
             return Response.error("此用户不存在！");
@@ -92,9 +92,9 @@ public class UserController {
 
     @GetMapping("/users")
     @PreAuthorize("hasRole('admin')")
-    public Response<?> getUsers(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+    public Response<PageInfo<User>> getUsers(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        PageInfo<?> pageInfo = userService.listUsers(pageNum, pageSize);
+        PageInfo<User> pageInfo = userService.listUsers(pageNum, pageSize);
         if (pageInfo.getList() == null) {
             return Response.error("暂无用户！");
         }

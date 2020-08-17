@@ -20,7 +20,7 @@ public class RoleController {
     }
 
     @GetMapping("/roles")
-    public Response<?> listRoles() {
+    public Response<List<Role>> listRoles() {
         List<Role> roles = roleService.listRoles();
         if (roles == null) {
             return Response.error("暂无角色！");

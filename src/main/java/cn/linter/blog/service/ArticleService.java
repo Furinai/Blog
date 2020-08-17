@@ -12,5 +12,5 @@ public interface ArticleService {
 
     Article getArticle(int articleId);
 
-    PageInfo<?> listArticles(int categoryId, int pageNum, int pageSize);
+    PageInfo<Article> listArticles(int categoryId, int pageNum, int pageSize);
 }
