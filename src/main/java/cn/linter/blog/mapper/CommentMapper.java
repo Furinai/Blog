@@ -21,7 +21,7 @@ public interface CommentMapper {
 
     void deleteCommentByCategoryId(@Param("categoryId") int categoryId);
 
-    List<Comment> selectCommentsByArticleId(@Param("articleId") int articleId);
+    List<Comment> selectComments(@Param("articleId") int articleId);
 
     List<Map<String, Integer>> countCommentByIds(@Param("ids") int[] ids);
 

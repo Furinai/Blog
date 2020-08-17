@@ -56,7 +56,7 @@
         </foreach>
     </delete>
 
-    <select id="selectCommentsByArticleId" resultMap="CommentResultMap">
+    <select id="selectComments" resultMap="CommentResultMap">
         select comment.id, comment.content, comment.created_time, comment.article_id,
         user.id as user_id, user.username
         from comment, user

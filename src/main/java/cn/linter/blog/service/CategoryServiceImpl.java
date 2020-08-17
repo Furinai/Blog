@@ -6,13 +6,21 @@ import cn.linter.blog.mapper.ArticleMapper;
 import cn.linter.blog.mapper.CategoryMapper;
 import cn.linter.blog.mapper.CommentMapper;
 import cn.linter.blog.repository.SearchRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
+
+    @Value("${blog.upload.location}")
+    private String location;
 
     private final CategoryMapper categoryMapper;
     private final ArticleMapper articleMapper;
@@ -41,9 +49,17 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional(rollbackFor = Exception.class)
     public int deleteCategory(int categoryId) {
         List<Article> articles = articleMapper.selectArticles(categoryId);
+        Category category = categoryMapper.selectCategoryById(categoryId);
         commentMapper.deleteCommentByCategoryId(categoryId);
         articleMapper.deleteArticleByCategoryId(categoryId);
         int result = categoryMapper.deleteCategoryById(categoryId);
+        String icon = category.getIcon().substring(7);
+        Path path = Paths.get(location + icon);
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         searchRepository.deleteAll(articles);
         return result;
     }
