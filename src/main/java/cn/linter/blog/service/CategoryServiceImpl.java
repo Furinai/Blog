@@ -39,11 +39,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int deleteCategory(int id) {
-        List<Article> articles = articleMapper.selectArticles(id);
-        commentMapper.deleteCommentByCategoryId(id);
-        articleMapper.deleteArticleByCategoryId(id);
-        int result = categoryMapper.deleteCategory(id);
+    public int deleteCategory(int categoryId) {
+        List<Article> articles = articleMapper.selectArticles(categoryId);
+        commentMapper.deleteCommentByCategoryId(categoryId);
+        articleMapper.deleteArticleByCategoryId(categoryId);
+        int result = categoryMapper.deleteCategoryById(categoryId);
         searchRepository.deleteAll(articles);
         return result;
     }

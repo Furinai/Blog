@@ -40,8 +40,8 @@ public class CategoryController {
 
     @DeleteMapping("/category/{id}")
     @PreAuthorize("hasRole('admin')")
-    public Response<?> deleteCategory(@PathVariable("id") int id) {
-        int result = categoryService.deleteCategory(id);
+    public Response<?> deleteCategory(@PathVariable("id") int categoryId) {
+        int result = categoryService.deleteCategory(categoryId);
         if (result > 0) {
             return Response.success("删除成功！");
         }

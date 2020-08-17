@@ -12,7 +12,7 @@
         where id = #{id}
     </update>
 
-    <delete id="deleteCategory">
+    <delete id="deleteCategoryById">
         delete
         from category
         where id = #{id}
@@ -27,6 +27,6 @@
     <select id="selectCategoryById" resultType="category">
         select id, icon, name, sequence
         from category
-        where category.id = #{categoryId}
+        where category.id = #{id}
     </select>
 </mapper>

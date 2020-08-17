@@ -13,9 +13,9 @@ public interface CategoryMapper {
 
     int updateCategory(Category category);
 
-    int deleteCategory(@Param("id") int id);
+    int deleteCategoryById(@Param("id") int id);
 
-    Category selectCategoryById(@Param("categoryId") int categoryId);
+    Category selectCategoryById(@Param("id") int id);
 
     List<Category> selectCategories();
 }
